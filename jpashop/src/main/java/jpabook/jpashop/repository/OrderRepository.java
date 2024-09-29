@@ -127,14 +127,14 @@ public class OrderRepository {
         if (!StringUtils.hasText(memberName)) {
             return null;
         }
-        return QMember.member.name.like(memberName);
+        return member.name.like(memberName);
     }
 
     private BooleanExpression statusEq(OrderStatus statusCond) {
         if (statusCond == null) {
             return null;
         }
-        return QOrder.order.status.eq(statusCond);
+        return order.status.eq(statusCond);
     }
 
     /**
