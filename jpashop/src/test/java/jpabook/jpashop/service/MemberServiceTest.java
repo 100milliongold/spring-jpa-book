@@ -11,25 +11,25 @@ import jpabook.jpashop.repository.MemberRepository;
 
 import org.assertj.core.api.Assertions;
 
-
-
 @SpringBootTest
 @Transactional
 public class MemberServiceTest {
 
-    @Autowired MemberService memberService;
-    @Autowired MemberRepository memberRepository;
-    @Autowired EntityManager em;
+    @Autowired
+    MemberService memberService;
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    EntityManager em;
 
     @Test
     void 회원가입() throws Exception {
         Member member = new Member();
         member.setName("kim");
 
-
         Long memberId = memberService.join(member);
 
-        Assertions.assertThat(member).isEqualTo(memberRepository.findOne(memberId));
+        Assertions.assertThat(member).isEqualTo(memberRepository.findById(memberId).get());
     }
 
     @Test
@@ -41,14 +41,12 @@ public class MemberServiceTest {
 
         memberService.join(member1);
 
-        
-
         Throwable thrown = Assertions.catchThrowable(() -> {
             memberService.join(member2); // 예외발생해야 한다
         });
 
         // then
         Assertions.assertThat(thrown).isInstanceOf(IllegalStateException.class).hasMessageContaining("이미 존재하는 회원입니다.");
-      
+
     }
 }
